@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submitted Entries</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>All Submitted Entries</h3>
+        <div>
+            <a href="{{ url_for('download') }}" class="btn btn-success">
+                <i class="bi bi-file-earmark-excel"></i> Download Excel Report
+            </a>
+        </div>
+    </div>
+    
+    <form method="GET" action="{{ url_for('submissions') }}" class="mb-3 d-flex gap-2">
+        <input type="text" name="q" class="form-control" placeholder="Search by Name or Division..." value="{{ request.args.get('q', '') }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="{{ url_for('submissions') }}" class="btn btn-secondary">Clear</a>
+    </form>
+
+    <a href="{{ url_for('index') }}" class="btn btn-secondary mb-3">Back to Form</a>
+
+    <ul class="list-group">
+        {% for entry in data %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span><strong>{{ entry['Name'] }}</strong> - {{ entry['Start Date'] }}</span>
+                <div class="d-flex gap-2">
+                    <a href="{{ url_for('edit', entry_id=entry['ID']) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
